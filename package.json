@@ -1,0 +1,8 @@
+{
+  "name": "progressionhub-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/mersad998/progressionhub-backend.git",
+  "author": "mersad <mersad_998@yahoo.com>",
+  "license": "MIT"
+}
