@@ -1,15 +1,16 @@
-#!/usr/bin/env node
-
 /**
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('progressionhub-backend:server');
-var http = require('http');
+import Debug from "debug";
+import  http from 'http'
+
+import  app from './app'
+
+const debug = Debug("progressionhub-backend:server");
 
 //todo: complete this
-console.log(process.env.DB_ADDRESS);
+// console.log(process.env.DB_ADDRESS);
 
 /**
  * Get port from environment and store in Express.
@@ -85,7 +86,7 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
+  var addr = server.address()??{port :1234}
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
