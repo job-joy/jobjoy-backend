@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
 
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
@@ -26,6 +27,11 @@ mongoose
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 app.use(logger('dev'));
 app.use(express.json());
