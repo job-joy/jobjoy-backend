@@ -8,6 +8,9 @@ var app = require('../app');
 var debug = require('debug')('progressionhub-backend:server');
 var http = require('http');
 
+//todo: complete this
+console.log(process.env.DB_ADDRESS);
+
 /**
  * Get port from environment and store in Express.
  */
