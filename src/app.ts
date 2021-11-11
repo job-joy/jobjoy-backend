@@ -5,6 +5,7 @@ import  cookieParser  from 'cookie-parser'
 import  logger  from 'morgan'
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import dotenv from 'dotenv';
 
 import  indexRouter  from './routes/index'
 import  usersRouter  from './routes/users'
@@ -12,6 +13,8 @@ import  usersRouter  from './routes/users'
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+dotenv.config();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
