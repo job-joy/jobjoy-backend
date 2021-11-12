@@ -25,4 +25,4 @@ const signUpVerificationCode = mongoose.model(
   signUpVerificationCodeSchema,
 );
 
-export { signUpVerificationCodeSchema, signUpVerificationCode };
+export { signUpVerificationCode };
