@@ -1,7 +1,7 @@
 import express from 'express';
-import kavenegar from 'kavenegar';
 
 import { iranMobileRegex } from '../helpers/regexHelper';
+import { sendSMS } from '../helpers/SMSHelper';
 import { signUpVerificationCode } from '../models/signUpVerificationCode';
 
 const router = express.Router();
@@ -12,7 +12,6 @@ router.post('/getVerificationCode', (req, res) => {
 
   if (iranMobileRegex.exec(mobileNumber)) {
     const randomVerificationCode = Math.floor(Math.random() * 90000) + 10000;
-    const SMSserver = kavenegar.KavenegarApi({ apikey: process.env.SMS_TOKEN });
     const requestDate = new Date();
 
     signUpVerificationCode
@@ -30,11 +29,8 @@ router.post('/getVerificationCode', (req, res) => {
             console.log('create status: ', status);
 
             try {
-              SMSserver.Send({
-                message: `کد احراز هویت شما در سامانه مرکز پیشرفت ${randomVerificationCode} میباشد`,
-                sender: process.env.SMS_SENDER_NUMBER,
-                receptor: mobileNumber,
-              });
+              const preparedSmsMessage = `کد احراز هویت شما در سامانه مرکز پیشرفت ${randomVerificationCode} میباشد`;
+              sendSMS(preparedSmsMessage, mobileNumber);
 
               res.send({
                 message: 'verification code sent',
