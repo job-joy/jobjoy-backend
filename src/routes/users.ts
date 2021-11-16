@@ -2,7 +2,9 @@ import express from 'express';
 
 import { iranMobileRegex } from '../helpers/regexHelper';
 import { sendSMS } from '../helpers/SMSHelper';
+
 import { signUpVerificationCode } from '../models/signUpVerificationCode';
+import { user } from '../models/user';
 
 const router = express.Router();
 
@@ -76,6 +78,31 @@ router.post('/confirmVerificationCode', async (req, res) => {
           debug: `${value.verificationCode} , ${verificationCode}`,
         });
       }
+    })
+    .catch(error => {
+      console.log('read verification code from db error: ', error);
+      res.send(error);
+    });
+});
+
+// signUp
+router.post('/signUp', async (req, res) => {
+  const { mobileNumber, verificationCode, birthday, firstName, lastName, gender, password} = req.body;
+
+  const userVerificationCode = signUpVerificationCode
+    .findOne({ mobileNumber })
+    .then(value => {
+          if (String(value.verificationCode) === String(verificationCode)) {
+            //todo: should save in db
+            res.send({
+              message: 'success',
+            });
+          } else {
+            res.send({
+              message: 'verification code is not valid',
+              debug: `${value.verificationCode} , ${verificationCode}`,
+            });
+          }
     })
     .catch(error => {
       console.log('read verification code from db error: ', error);

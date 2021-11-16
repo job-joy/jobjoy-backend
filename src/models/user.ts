@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const signUpSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   mobileNumber: {
     type: String,
     required: true,
@@ -43,9 +43,5 @@ const signUpSchema = new mongoose.Schema({
   }
 });
 
-const signUpVerificationCode = mongoose.model(
-  'signUp',
-  signUpSchema,
-);
-
-export { signUpVerificationCode };
+const user = mongoose.model('user', userSchema);
+export { user };
