@@ -68,7 +68,7 @@ router.post('/confirmVerificationCode', async (req, res) => {
     .then(value => {
       // todo: check timeout
 
-      if (String(value.verificationCode) === String(verificationCode)) {
+      if (value && String(value.verificationCode) === String(verificationCode)) {
         res.send({
           message: 'success',
         });
@@ -111,7 +111,7 @@ router.post('/signUp', async (req, res) => {
             firstName,
             lastName,
             gender,
-            password,
+            password, // todo: hash it
           })
           .then(result => {
             res.send({
@@ -137,5 +137,30 @@ router.post('/signUp', async (req, res) => {
       res.send({ error });
     });
 });
+
+// logIn
+router.post('/login', async (req, res) => {
+  const { mobileNumber, password } = req.body;
+
+    user
+    .findOne({ mobileNumber })
+    .then(value => {
+      if (value && String(value.password) === String(password)) {
+        res.send({
+          message: 'success',
+          token:'Hi, I am a fake token. ha ha ha'
+        });
+      } else {
+        res.send({
+          message: 'password is not valid',
+        });
+      }
+    })
+    .catch(error => {
+      console.log('read user from db error: ', error);
+      res.send(error);
+    });
+});
+
 
 export default router;
