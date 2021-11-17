@@ -32,10 +32,11 @@ router.post('/getVerificationCode', (req, res) => {
 
             try {
               const preparedSmsMessage = `کد احراز هویت شما در سامانه مرکز پیشرفت ${randomVerificationCode} میباشد`;
-              sendSMS(preparedSmsMessage, mobileNumber);
+              // sendSMS(preparedSmsMessage, mobileNumber);
 
               res.send({
                 message: 'verification code sent',
+                debug: randomVerificationCode,
               });
             } catch (error) {
               console.log('send sms error: ', error);
@@ -62,10 +63,9 @@ router.post('/getVerificationCode', (req, res) => {
 router.post('/confirmVerificationCode', async (req, res) => {
   const { mobileNumber, verificationCode } = req.body;
 
-  const userVerificationCode = signUpVerificationCode
+  signUpVerificationCode
     .findOne({ mobileNumber })
     .then(value => {
-      console.log('value: ', value);
       // todo: check timeout
 
       if (String(value.verificationCode) === String(verificationCode)) {
@@ -87,26 +87,54 @@ router.post('/confirmVerificationCode', async (req, res) => {
 
 // signUp
 router.post('/signUp', async (req, res) => {
-  const { mobileNumber, verificationCode, birthday, firstName, lastName, gender, password} = req.body;
+  const {
+    mobileNumber,
+    verificationCode,
+    birthday,
+    firstName,
+    lastName,
+    gender,
+    password,
+  } = req.body;
 
-  const userVerificationCode = signUpVerificationCode
+  signUpVerificationCode
     .findOne({ mobileNumber })
     .then(value => {
-          if (String(value.verificationCode) === String(verificationCode)) {
-            //todo: should save in db
+      console.log('value: ', value);
+      if (value && String(value.verificationCode) === String(verificationCode)) {
+        user
+          .create({
+            mobileNumber,
+            signUpDate: value.requestDate,
+            role: 'user',
+            birthday,
+            firstName,
+            lastName,
+            gender,
+            password,
+          })
+          .then(result => {
             res.send({
               message: 'success',
+              debug: result,
             });
-          } else {
+          })
+          .catch(error => {
             res.send({
-              message: 'verification code is not valid',
-              debug: `${value.verificationCode} , ${verificationCode}`,
+              message: 'fail',
+              debug: error,
             });
-          }
+          });
+      } else {
+        res.send({
+          message: 'verification code is not valid',
+          debug: `${value?.verificationCode} , ${verificationCode}`,
+        });
+      }
     })
     .catch(error => {
       console.log('read verification code from db error: ', error);
-      res.send(error);
+      res.send({ error });
     });
 });
 

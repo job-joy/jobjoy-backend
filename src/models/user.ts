@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
   },
   birthday: {
     type: Date,
-    required: true,
+    // required: true, //todo : make it require
   },
   firstName: {
     type: String,
