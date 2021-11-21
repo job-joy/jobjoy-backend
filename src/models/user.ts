@@ -36,11 +36,18 @@ const userSchema = new mongoose.Schema({
     required: true,
     maxlength: 50,
   },
-  password:{
+  password: {
     type: String,
     required: true,
     maxlength: 2048,
-  }
+  },
+  profileImageUrl: {
+    type: String,
+  },
+  accountStatus: {
+    // 0-inActive, 1-active, 2-deleted
+    type: Number,
+  },
 });
 
 const user = mongoose.model('user', userSchema);
