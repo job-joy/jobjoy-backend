@@ -11,6 +11,7 @@ import bodyParser from 'body-parser';
 
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
+import feedsRouter from './routes/feeds';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -41,6 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/feeds', feedsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
