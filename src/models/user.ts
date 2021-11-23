@@ -48,6 +48,9 @@ const userSchema = new mongoose.Schema({
     // 0-inActive, 1-active, 2-deleted
     type: Number,
   },
+  token: {
+    type: String,
+  },
 });
 
 const user = mongoose.model('user', userSchema);
