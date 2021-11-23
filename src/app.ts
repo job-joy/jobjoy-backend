@@ -12,6 +12,7 @@ import bodyParser from 'body-parser';
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 import feedsRouter from './routes/feeds';
+import { validateToken } from './helpers/authenticationHelper';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -30,9 +31,11 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  }),
+);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -42,6 +45,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+// check token middleware
+app.use(validateToken);
 app.use('/feeds', feedsRouter);
 
 // catch 404 and forward to error handler
