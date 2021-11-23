@@ -12,7 +12,7 @@ import bodyParser from 'body-parser';
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 import feedsRouter from './routes/feeds';
-import { validateToken } from './helpers/authenticationHelper';
+import { getUserByToken, validateToken } from './helpers/authenticationHelper';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -48,6 +48,8 @@ app.use('/users', usersRouter);
 
 // check token middleware
 app.use(validateToken);
+// extract user from token
+app.use(getUserByToken);
 app.use('/feeds', feedsRouter);
 
 // catch 404 and forward to error handler
