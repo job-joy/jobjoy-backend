@@ -9,6 +9,7 @@ router.post('/createPost', async (req, res) => {
 
   res.send({
     message: 'create post',
+    user: req['user'],
   });
 });
 
