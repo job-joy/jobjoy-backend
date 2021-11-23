@@ -6,8 +6,8 @@ const generateNewJWTSecretToken = (): string => {
   return crypto.randomBytes(64).toString('hex');
 };
 
-export const generateNewToken = (username: string): string => {
-  const newToken = jwt.sign({ username }, process.env.JWT_SECRET_TOKEN, {
+export const generateNewToken = (mobileNumber: string): string => {
+  const newToken = jwt.sign({ mobileNumber }, process.env.JWT_SECRET_TOKEN, {
     expiresIn: '3600s',
   });
 
@@ -27,6 +27,7 @@ export const validateToken = (req, res, next) => {
       console.log(err);
 
       if (err) return res.sendStatus(403);
+      // todo: it can throw error if token has been changed with compare from db here
 
       req.user = user;
 
@@ -35,17 +36,18 @@ export const validateToken = (req, res, next) => {
   );
 };
 
-export const getUserByToken = async token => {
-  jwt.verify(token, process.env.JWT_SECRET_TOKEN, (error, mobileNumber) => {
-    if (error) throw error;
+export const getUserByToken = async (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
 
-    user
-      .findOne({ mobileNumber })
-      .then(user => {
-        return user;
-      })
-      .catch(error => {
-        throw error;
-      });
+  jwt.verify(token, process.env.JWT_SECRET_TOKEN, async (error, mobileNumber) => {
+    if (error) {
+      console.log('error: ', error);
+      next();
+    }
+    const _user = await user.findOne({ mobileNumber: mobileNumber?.mobileNumber });
+    req.user = _user;
+
+    next();
   });
 };
