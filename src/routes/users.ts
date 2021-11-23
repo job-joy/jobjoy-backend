@@ -1,5 +1,6 @@
 import express from 'express';
 
+import { generateNewToken } from '../helpers/authenticationHelper';
 import { iranMobileRegex } from '../helpers/regexHelper';
 import { sendSMS } from '../helpers/SMSHelper';
 
@@ -141,15 +142,25 @@ router.post('/signUp', async (req, res) => {
 // logIn
 router.post('/login', async (req, res) => {
   const { mobileNumber, password } = req.body;
-
-    user
+  user
     .findOne({ mobileNumber })
     .then(value => {
       if (value && String(value.password) === String(password)) {
-        res.send({
-          message: 'success',
-          token:'Hi, I am a fake token. ha ha ha'
-        });
+        const newToken = generateNewToken(mobileNumber);
+
+        user
+          .updateOne({ mobileNumber }, { token: newToken })
+          .then(() => {
+            res.send({
+              message: 'success',
+              token: newToken,
+            });
+          })
+          .catch(() => {
+            res.send({
+              message: 'could not save token for user',
+            });
+          });
       } else {
         res.send({
           message: 'password is not valid',
@@ -158,9 +169,8 @@ router.post('/login', async (req, res) => {
     })
     .catch(error => {
       console.log('read user from db error: ', error);
-      res.send(error);
+      res.send({ error });
     });
 });
-
 
 export default router;
