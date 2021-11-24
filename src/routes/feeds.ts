@@ -4,13 +4,33 @@ import { feed } from '../models/feed';
 
 var router = express.Router();
 
-router.post('/createPost', async (req, res) => {
+router.post('/createPost', (req, res) => {
   const { title, description, images, labels } = req.body;
 
-  res.send({
-    message: 'create post',
-    user: req['user'],
-  });
+  const user = req['user'];
+  const requestDate = new Date();
+
+  feed
+    .create({
+      userId: user._id,
+      createData: requestDate,
+      title: title,
+      description: description,
+      images: images,
+      labels: labels,
+    })
+    .then(result => {
+      res.send({
+        message: 'success',
+        debug: result,
+      });
+    })
+    .catch(error => {
+      res.send({
+        message: 'fail',
+        debug: error,
+      });
+    });
 });
 
 export default router;
