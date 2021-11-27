@@ -33,4 +33,25 @@ router.post('/createPost', (req, res) => {
     });
 });
 
+router.get('/getPosts', (req, res) => {
+  const user = req['user'];
+
+  feed
+    .findOne({
+      userId: user._id,
+    })
+    .then(result => {
+      res.send({
+        message: 'success',
+        result: result,
+      });
+    })
+    .catch(error => {
+      res.send({
+        message: 'fail',
+        debug: error,
+      });
+    });
+});
+
 export default router;
