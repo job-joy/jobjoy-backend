@@ -37,7 +37,7 @@ router.get('/getPosts', (req, res) => {
   const user = req['user'];
 
   feed
-    .findOne({
+    .find({
       userId: user._id,
     })
     .then(result => {
