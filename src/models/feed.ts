@@ -1,4 +1,4 @@
-import mongoose, { ObjectId } from 'mongoose';
+import mongoose from 'mongoose';
 
 const feedSchema = new mongoose.Schema({
   userId: {
