@@ -6,7 +6,7 @@ import  http from 'http'
 
 import  app from './app'
 
-const debug = Debug("progressionhub-backend:server");
+const debug = Debug("jobjoy--backend:server");
 
 
 /**
