@@ -33,7 +33,26 @@ router.post('/createPost', (req, res) => {
     });
 });
 
-router.get('/getPosts', (req, res) => {
+router.get('/getAllPosts', (req, res) => {
+  const user = req['user'];
+
+  feed
+    .find({})
+    .then(result => {
+      res.send({
+        message: 'success',
+        result: result,
+      });
+    })
+    .catch(error => {
+      res.send({
+        message: 'fail',
+        debug: error,
+      });
+    });
+});
+
+router.get('/getMyPosts', (req, res) => {
   const user = req['user'];
 
   feed
