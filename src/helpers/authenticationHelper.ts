@@ -2,10 +2,21 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import { user } from '../models/user';
 
+/**
+ * generate a random 64 bit string key for use in jwt
+ * @function generateNewJWTSecretToken
+ * @returns {string} jwt key
+ */
 const generateNewJWTSecretToken = (): string => {
   return crypto.randomBytes(64).toString('hex');
 };
 
+/**
+ * generate new jwt token
+ * @function generateNewToken
+ * @param {string} mobileNumber 
+ * @returns {string} new token
+ */
 export const generateNewToken = (mobileNumber: string): string => {
   const newToken = jwt.sign({ mobileNumber }, process.env.JWT_SECRET_TOKEN, {
     expiresIn: '3600s',
@@ -14,6 +25,14 @@ export const generateNewToken = (mobileNumber: string): string => {
   return newToken;
 };
 
+/**
+ * validate token middleware
+ * @function validateToken
+ * @param {object} req 
+ * @param {object} res 
+ * @param {object} next 
+ * @returns {void}
+ */
 export const validateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -36,6 +55,14 @@ export const validateToken = (req, res, next) => {
   );
 };
 
+/**
+ * authentication middleware
+ * @function getUserByToken
+ * @param {object} req 
+ * @param {object} res 
+ * @param {object} next 
+ * @returns {void}
+ */
 export const getUserByToken = async (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
