@@ -73,4 +73,26 @@ router.get('/getMyPosts', (req, res) => {
     });
 });
 
+router.delete('/deletePost', (req, res) => {
+  const user = req['user'];
+
+  feed
+    .deleteOne({
+      // userId: user._id,
+      //todo => get id
+    })
+    .then(result => {
+      res.send({
+        message: 'success',
+        result: result,
+      });
+    })
+    .catch(error => {
+      res.send({
+        message: 'fail',
+        debug: error,
+      });
+    });
+});
+
 export default router;
