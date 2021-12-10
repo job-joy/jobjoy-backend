@@ -18,7 +18,10 @@
     "jsonwebtoken": "^8.5.1",
     "kavenegar": "^1.1.4",
     "mongoose": "^6.0.12",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "@typescript-eslint/eslint-plugin": "^4.26.1",
+    "@typescript-eslint/parser": "^4.26.1",
+    "eslint": "^7.30.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
