@@ -7,7 +7,8 @@
     "start": "nodemon",
     "dev": "nodemon",
     "format": "yarn format:eslint && yarn format:prettier",
-    "format:eslint": "eslint \"src/**/*.{js,ts,tsx}\" --fix"
+    "format:eslint": "eslint \"src/**/*.{js,ts,tsx}\" --fix",
+    "format:prettier": "prettier \"src/**/*.{cjs,js,json,md,ts,tsx}\" --write"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
