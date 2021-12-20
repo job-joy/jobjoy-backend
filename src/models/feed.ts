@@ -5,14 +5,14 @@ const feedSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  createData:{
+  createData: {
     type: Date,
     required: true,
   },
-  updateData:{
+  updateData: {
     type: Date,
   },
-  deleteData:{
+  deleteData: {
     type: Date,
   },
   title: {
