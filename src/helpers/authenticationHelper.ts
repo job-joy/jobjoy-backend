@@ -14,7 +14,7 @@ const generateNewJWTSecretToken = (): string => {
 /**
  * generate new jwt token
  * @function generateNewToken
- * @param {string} mobileNumber 
+ * @param {string} mobileNumber
  * @returns {string} new token
  */
 export const generateNewToken = (mobileNumber: string): string => {
@@ -28,9 +28,9 @@ export const generateNewToken = (mobileNumber: string): string => {
 /**
  * validate token middleware
  * @function validateToken
- * @param {object} req 
- * @param {object} res 
- * @param {object} next 
+ * @param {object} req
+ * @param {object} res
+ * @param {object} next
  * @returns {void}
  */
 export const validateToken = (req, res, next) => {
@@ -58,9 +58,9 @@ export const validateToken = (req, res, next) => {
 /**
  * authentication middleware
  * @function getUserByToken
- * @param {object} req 
- * @param {object} res 
- * @param {object} next 
+ * @param {object} req
+ * @param {object} res
+ * @param {object} next
  * @returns {void}
  */
 export const getUserByToken = async (req, res, next) => {
