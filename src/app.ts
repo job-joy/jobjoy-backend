@@ -8,6 +8,7 @@ import { dirname } from 'path';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
@@ -36,6 +37,14 @@ app.use(
     extended: true,
   }),
 );
+
+const corsOptions = {
+  origin: '*',
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions)); // Use this after the variable declaration
 
 app.use(logger('dev'));
 app.use(express.json());
