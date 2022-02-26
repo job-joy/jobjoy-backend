@@ -19,7 +19,7 @@ router.post('/getVerificationCode', (req, res) => {
 
     signUpVerificationCode
       .remove({ mobileNumber })
-      .then(status => {
+      .then((status) => {
         console.log('remove status: ', status);
 
         signUpVerificationCode
@@ -28,7 +28,7 @@ router.post('/getVerificationCode', (req, res) => {
             requestDate,
             verificationCode: randomVerificationCode,
           })
-          .then(status => {
+          .then((status) => {
             console.log('create status: ', status);
 
             try {
@@ -46,11 +46,11 @@ router.post('/getVerificationCode', (req, res) => {
               });
             }
           })
-          .catch(error => {
+          .catch((error) => {
             console.log('create user error: ', error);
           });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log('remove user error: ', error);
       });
   } else {
@@ -66,7 +66,7 @@ router.post('/confirmVerificationCode', async (req, res) => {
 
   signUpVerificationCode
     .findOne({ mobileNumber })
-    .then(value => {
+    .then((value) => {
       // todo: check timeout
 
       if (value && String(value.verificationCode) === String(verificationCode)) {
@@ -80,7 +80,7 @@ router.post('/confirmVerificationCode', async (req, res) => {
         });
       }
     })
-    .catch(error => {
+    .catch((error) => {
       console.log('read verification code from db error: ', error);
       res.send(error);
     });
@@ -100,7 +100,7 @@ router.post('/signUp', async (req, res) => {
 
   signUpVerificationCode
     .findOne({ mobileNumber })
-    .then(value => {
+    .then((value) => {
       console.log('value: ', value);
       if (value && String(value.verificationCode) === String(verificationCode)) {
         user
@@ -114,13 +114,13 @@ router.post('/signUp', async (req, res) => {
             gender,
             password, // todo: hash it
           })
-          .then(result => {
+          .then((result) => {
             res.send({
               message: 'success',
               debug: result,
             });
           })
-          .catch(error => {
+          .catch((error) => {
             res.send({
               message: 'fail',
               debug: error,
@@ -133,7 +133,7 @@ router.post('/signUp', async (req, res) => {
         });
       }
     })
-    .catch(error => {
+    .catch((error) => {
       console.log('read verification code from db error: ', error);
       res.send({ error });
     });
@@ -144,7 +144,7 @@ router.post('/login', async (req, res) => {
   const { mobileNumber, password } = req.body;
   user
     .findOne({ mobileNumber })
-    .then(value => {
+    .then((value) => {
       if (value && String(value.password) === String(password)) {
         const newToken = generateNewToken(mobileNumber);
 
@@ -167,10 +167,26 @@ router.post('/login', async (req, res) => {
         });
       }
     })
-    .catch(error => {
+    .catch((error) => {
       console.log('read user from db error: ', error);
       res.send({ error });
     });
+});
+
+router.get('/testOne', (req, res) => {
+  res.send({
+    status: 'success',
+    message: 'this is test one',
+    id: 1,
+  });
+});
+
+router.get('/testTwo', (req, res) => {
+  res.send({
+    status: 'fail',
+    message: 'this is test tow',
+    id: 2,
+  });
 });
 
 export default router;
